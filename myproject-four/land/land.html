@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Slick Login</title>
+    <meta name="description" content="slick Login">
+    <meta name="author" content="Webdesigntuts+">
+    <link rel="stylesheet" type="text/css" href="style/land.css" />
+</head>
+
+<body>
+<!--<form id="slick-login" >-->
+<form id="slick-login">
+    <label for="username">username</label>
+    <input type="text" name="email" class="placeholder" placeholder="me@tutsplus.com" id="land-username">
+    <label for="password">password</label>
+    <input type="password" name="password" class="placeholder" placeholder="password" id="land-password">
+    <input type="submit" value="Log In" id="submit-land"/>
+    <!--onclick="window.open('index.html')"-->
+</form>
+</body>
+
+</html>
+
+<script src="js/jquery.min.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(
+            function(){
+                $("#slick-login").validate({
+                    rules:{
+                        email:{
+                            required:true,
+                            minlength:2,
+                            maxlength:16,
+                        },
+                        password:{
+                            required:true,
+                            minlength:2,
+                            maxlength:16,
+                        },
+                    },
+                    messages:{
+                        email:{
+                            required:"必须填写用户名",
+                            minlength:"用户名最小为2位",
+                            maxlength:"用户名最大为16位",
+                        },
+                        password:{
+                            required:"必须填写用户名",
+                            minlength:"用户名最小为2位",
+                            maxlength:"用户名最大为16位",
+                        },
+                    },
+                    submitHandler: function(form)
+                    {
+                        $.ajax({
+                            type:"POST",
+                            url:"http://device.youfen8.com/login",
+                            data:{
+                                email:$(form).find('#land-username').val(),
+                                password:$(form).find('#land-password').val()
+                            },
+                            dataType:"json",
+                            success:function(data){
+                                if(typeof data.errmsg !=='undefined'){
+                                    alert(data.errmsg);
+                                    return false;
+                                }
+                                window.location.href = 'http://localhost:8080/';
+                            },
+                            error:function(res)
+                            {
+                                console.log(res);
+                                return false;
+                            }
+                        });
+                        return false;     //异步非常重要
+                    }
+                });
+
+            }
+     );
+
+
+
+
+
+    //    $("#submit-land").on("click",function(){
+//        console.log(1);
+//        var username=$("#land-username").val();
+//        var password=$("#land-password").val();
+//        console.log(username);
+//        console.log(password);
+//        $.ajax({
+//            type:"POST",
+//            url:"http://device.youfen8.com/login",
+//            data:{
+//                email:username,
+//                password:password
+//            },
+//            dataType:"json",
+//            success:function(data){
+//                console.log(data);
+//                return false;
+//            },
+//            error:function(res)
+//            {
+//                console.log(res);
+//                return false;
+//
+//            }
+//       })
+//    })
+</script>
